@@ -1,0 +1,30 @@
+- name: Puesta a punto, requerimientos antes de Instalar RKE2
+  hosts: all
+  remote_user: darioc
+  tasks:
+    - name: Test Reacheability
+      ansible.builtin.ping:
+    - name: Upgrade all apt packages
+      apt:
+        force_apt_get: yes
+        upgrade: dist
+      become: yes
+    - name: Run Sccript for add hostnames if dont exist.
+      become: yes
+      ansible.builtin.script: ../scripts/add-hosts-to-hostsfile.sh
+    - name: Comment line on cloud.cfg file
+      become: yes
+      ansible.builtin.script: ../scripts/modify_cloudcgf_file.sh
+    - name: Install docker and docker-compose
+      become: yes
+      shell: apt install docker.io docker-compose -y
+    - name: Install open-iscsi
+      become: yes
+      shell: apt-get install open-iscsi
+    - name: Install jq
+      become: yes
+      shell: apt-get install jq -y
+    - name: Install nfs-common
+      become: yes
+      shell: apt-get install nfs-common -y
+    

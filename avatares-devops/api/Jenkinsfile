@@ -1,0 +1,89 @@
+pipeline {
+    agent any
+
+    environment {
+        REPO_URL = 'https://github.com/chichocoria/proyecto_final_cf.git'
+        BRANCH = 'testing' // Cambia esto si necesitas otra rama
+        IMAGE_NAME = 'chichocoria/avatares-devops-api'
+        DOCKERFILE_PATH = 'avatares-devops/api/Dockerfile'
+        CONTEXT = 'avatares-devops/api'
+        registryCredential = 'chichocoria-dockerhub'
+        VERSION = "${BUILD_NUMBER}"
+        SONAR_AUTH_TOKEN = 'SonarQube-Token'
+        SONAR_HOST_URL = 'http://192.168.52.237:9000'
+        SONARQUBE_PROJECT_KEY = 'devops-codfac'
+        SONARQUBE_ENV = 'SonarQube'
+        GITHUB_CREDENTIALS = 'github'
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: "${BRANCH}", url: "${REPO_URL}"
+            }
+        }
+
+        stage('SonarQube Analysis main') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarQube'
+                    withSonarQubeEnv('SonarQube') {
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${SONARQUBE_PROJECT_KEY} -Dsonar.sources=. -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONAR_AUTH_TOKEN}"
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def fullImageName = "${IMAGE_NAME}:${VERSION}"
+                    docker.build(fullImageName, "-f ${DOCKERFILE_PATH} ${CONTEXT}")
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    def fullImageName = "${IMAGE_NAME}:${VERSION}"
+                    docker.withRegistry( '', registryCredential) {
+                        docker.image(fullImageName).push()
+                    }
+                }
+            }
+        }
+
+         stage('Update Kubernetes Deployment') {
+            steps {
+                script {
+                    sh "sed -i 's+chichocoria/avatares-devops-api.*+chichocoria/avatares-devops-api:${VERSION}+g' k8s/avatares-deployment/01-deployment-avatares-api.yaml"
+                    sh  "git config user.email chicho@chicho.com"
+                    sh  "git config user.name Chicho"
+                    sh  "git add k8s/avatares-deployment/01-deployment-avatares-api.yaml"
+                    sh  "git commit -m 'Update deployment image for chichocoria/avatares-devops-api:${VERSION}'"
+                
+                }
+            }
+        }
+
+        stage('Push Changes to GitHub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${GITHUB_CREDENTIALS}", usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                        sh """
+                            git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/chichocoria/proyecto_final_cf.git HEAD:${BRANCH}
+                        """
+                    }
+                }
+            }
+        }
+        
+
+        stage('Remove Unused docker image') {
+          steps{
+            sh "docker rmi ${IMAGE_NAME}:${VERSION}"
+            }
+        }
+    }
+}
