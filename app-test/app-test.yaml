@@ -41,27 +41,7 @@ spec:
   selector:
     app: app-hello
 ---
-# --- 4. El Gateway (¡SIMPLIFICADO!) ---
-# Ahora solo escucha en HTTP, ya que NGINX Proxy Manager
-# se encargará del SSL (HTTPS).
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: gateway-principal
-  namespace: nginx-gateway
-spec:
-  gatewayClassName: nginx
-  listeners:
-  # Listener HTTP (puerto 80)
-  # Este es el único listener que necesitas.
-  - name: http
-    protocol: HTTP
-    port: 80
-    allowedRoutes:
-      namespaces:
-        from: All
----
-# --- 5. La Ruta HTTP (CORREGIDA) ---
+# --- 4. La Ruta HTTP (CORREGIDA) ---
 # Ahora se vincula al listener "http" del Gateway
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -75,7 +55,7 @@ spec:
     sectionName: http   # <<<--- ¡CORREGIDO!
   
   hostnames:
-  - "avatares2.chicho.com.ar"
+  - "hellogwtest.chicho.com.ar"
   
   rules:
   - matches:

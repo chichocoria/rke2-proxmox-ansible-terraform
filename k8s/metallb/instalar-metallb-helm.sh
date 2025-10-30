@@ -44,5 +44,8 @@ kubectl get pods -n nginx-gateway
 #Patch Nginx Fabric Server to use LoadBalancer
 kubectl patch svc nginx-gateway -n nginx-gateway -p '{"spec": {"type": "LoadBalancer"}}'
 
+#Step 3: Deploy Gateway Principal
+kubectl apply -f ~/proyecto_final_cf/k8s/metallb/gateway-principal.yaml
+
 
 

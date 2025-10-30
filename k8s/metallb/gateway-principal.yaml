@@ -1,0 +1,19 @@
+#Tu Gateway (gateway-principal en 192.168.52.10) actúa como la única puerta de entrada
+#para todo tu tráfico HTTP.
+#A partir de ahí, el Gateway decide a qué servicio enviar el tráfico basándose 
+#en el hostname (el dominio) que viene en la petición.
+#Se crea una sola vez.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway-principal
+  namespace: nginx-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All # Permite que HTTPRoutes de cualquier namespace se enganchen
