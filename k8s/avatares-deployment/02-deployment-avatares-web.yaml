@@ -25,6 +25,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: avatares
   name: web
 spec:
   selector:
