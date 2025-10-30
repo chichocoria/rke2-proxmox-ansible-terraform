@@ -24,3 +24,25 @@ kubectl apply -f ~/proyecto_final_cf/k8s/metallb/metallb-config.yaml
 kubectl get configmap -n metallb
 
 echo "MetalLB ha sido instalado y configurado correctamente."
+
+#Install Nginx Gateway Fabric
+#Step 1: Install Gateway API Resources
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v1.5.1" | kubectl apply -f -
+# Verify installation
+kubectl get crd | grep gateway
+
+#Step 2: Configure NGINX Gateway Fabric
+# Deploy NGINX Gateway Fabric CRDs
+kubectl apply -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1.6.1/deploy/crds.yaml
+
+# Deploy NGINX Gateway Fabric
+kubectl apply -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1.6.1/deploy/nodeport/deploy.yaml
+
+# Verify the deployment
+kubectl get pods -n nginx-gateway
+
+#Patch Nginx Fabric Server to use LoadBalancer
+kubectl patch svc nginx-gateway -n nginx-gateway -p '{"spec": {"type": "LoadBalancer"}}'
+
+
+

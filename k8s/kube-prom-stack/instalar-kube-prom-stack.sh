@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 # Verifica si kubectl está instalado
 if ! command -v kubectl &> /dev/null
 then
