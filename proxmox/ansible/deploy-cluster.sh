@@ -6,7 +6,7 @@ set -e
 echo "--- Iniciando el despliegue de Ansible ---"
 
 # 1. Posicionarse en el directorio
-echo "Cambiando al directorio ~/proyecto_final_cf/proxmox/ansible/ ..."
+echo "Cambiando al directorio ~/rke2-proxmox-ansible-terraform/proxmox/ansible/ ..."
 cd ~/rke2-proxmox-ansible-terraform/proxmox/ansible/
 
 # 2. Correr el primer playbook
