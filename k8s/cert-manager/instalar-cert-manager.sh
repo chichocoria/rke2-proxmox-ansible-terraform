@@ -19,5 +19,5 @@ helm install \
   --set crds.enabled=truesleep 30
 
 ##Despliégalo con kubectl:
-kubectl apply -f ~/proyecto_final_cf/k8s/cert-manager/cluster-issuert.yaml
+kubectl apply -f cert-manager/cluster-issuert.yaml
 

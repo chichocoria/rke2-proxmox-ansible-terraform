@@ -102,8 +102,8 @@ while true; do
     echo "============================================="
     echo
     echo "--- Aplicaciones del Cluster (Helm) ---"
-    echo "  1. Instalar Cert-Manager y Nginx Fabric Gateway"
-    echo "  2. Instalar MetalLB"
+    echo "  1. Instalar Cert-Manager"
+    echo "  2. Instalar MetalLB  y Nginx Fabric Gateway"
     echo "  3. Instalar Longhorn"
     echo "  4. Instalar ArgoCD"
     echo "  5. Instalar Kube-Prom-Stack"
@@ -119,8 +119,8 @@ while true; do
 
     case $opcion in
         # Opciones de scripts .sh
-        1)  run_script "cert-manager/instalar-cert-manager.sh" "Cert-Manager y Nginx Fabric Gateway" ;;
-        2)  run_script "metallb/instalar-metallb-helm.sh" "MetalLB" ;;
+        1)  run_script "cert-manager/instalar-cert-manager.sh" "Cert-Manager" ;;
+        2)  run_script "metallb/instalar-metallb-helm.sh" "MetalLB y Nginx Fabric Gateway" ;;
         3)  run_script "longhorn/instalar-longhorn-helm.sh" "Longhorn" ;;
         4)  run_script "argocd/instalar-argocd-helm.sh" "ArgoCD" ;;
         5)  run_script "kube-prom-stack/instalar-kube-prom-stack.sh" "Kube-Prom-Stack" ;;
