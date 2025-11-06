@@ -19,7 +19,7 @@ helm install metallb metallb/metallb --namespace metallb
 kubectl get pods -n metallb
 #6 Aplicar la configuración de MetalLB
 sleep 30
-kubectl apply -f metallb-config.yaml
+kubectl apply -f metallb/metallb-config.yaml
 # Verificar la configuración
 kubectl get configmap -n metallb
 
@@ -45,7 +45,7 @@ kubectl get pods -n nginx-gateway
 kubectl patch svc nginx-gateway -n nginx-gateway -p '{"spec": {"type": "LoadBalancer"}}'
 
 #Step 3: Deploy Gateway Principal
-kubectl apply -f gateway-principal.yaml
+kubectl apply -f metallb/gateway-principal.yaml
 
 
 
