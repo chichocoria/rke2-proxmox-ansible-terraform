@@ -31,6 +31,7 @@ resource "proxmox_vm_qemu" "k8s-server" {
   sockets     = 1
   cpu         = "host"
   memory      = 4096
+  balloon     = 1024
   scsihw      = "virtio-scsi-pci"
 
   disks {
@@ -85,6 +86,7 @@ resource "proxmox_vm_qemu" "k8s-agent" {
   sockets     = 1
   cpu         = "host"
   memory      = 4096
+  balloon     = 1024
   scsihw      = "virtio-scsi-pci"
 
   disks {
@@ -160,3 +162,12 @@ resource "cloudflare_record" "monitoreo-avatares2" {
   type    = "CNAME"
   proxied = true
 }
+
+resource "cloudflare_record" "hellogwtest" {
+  zone_id = var.zone_id
+  name    = "hellogwtest"
+  value   = "chicho.com.ar"
+  type    = "CNAME"
+  proxied = true
+}
+

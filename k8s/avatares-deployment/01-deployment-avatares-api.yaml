@@ -1,4 +1,10 @@
 
+# --- 1. Namespace (Sin cambios) ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: avatares
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
