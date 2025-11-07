@@ -16,7 +16,7 @@ helm install \
   --set config.apiVersion="controller.config.cert-manager.io/v1alpha1" \
   --set config.kind="ControllerConfiguration" \
   --set config.enableGatewayAPI=true \
-  --set crds.enabled=truesleep 30
+  --set crds.enabled=true
 
 ##Despliégalo con kubectl:
 kubectl apply -f cert-manager/cluster-issuer.yaml
