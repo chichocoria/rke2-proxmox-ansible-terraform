@@ -6,10 +6,7 @@
 * RKE2
 * MetalLB
 * Nginx Fabric Gateway (Gateway API)
-* Nginx Proxy Manager (Docker SSL Certs)
-* Optional (Cert Manager)
-
-
+* Cert Manager
 
 
 
