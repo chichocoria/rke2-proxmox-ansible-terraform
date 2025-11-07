@@ -22,7 +22,7 @@ helm repo update
 kubectl create namespace monitoring
 
 ##Instala kube-prom-stack
-helm install monitoring-prometheus-stack prometheus-community/kube-prometheus-stack --version 49.2.0 --namespace monitoring -f ~/proyecto_final_cf/k8s/kube-prom-stack/prometheus-stack.yaml
+helm install monitoring-prometheus-stack prometheus-community/kube-prometheus-stack --version 49.2.0 --namespace monitoring -f kube-prom-stack/prometheus-stack.yaml
 
 sleep 60
 
@@ -53,6 +53,6 @@ echo "user:admin"
 echo "pass: prom-operator"
 
 #ingress para acceder desde afuera
-kubectl apply -f ~/proyecto_final_cf/k8s/kube-prom-stack/ingress-kube-prom-stack.yaml -n monitoring
+kubectl apply -f kube-prom-stack/httproute-kube-prom-stack.yaml -n monitoring
 sleep 10
 echo "Ahora puede acceder a traves de la url https://monitoreo-avatares2.chicho.com.ar/"
