@@ -16,6 +16,7 @@ variable "ssh_key" {
   sensitive = true
 }
 
+
 ##Se crean 1 nodo master
 resource "proxmox_vm_qemu" "k8s-server" {
   count       = 1
@@ -135,9 +136,48 @@ variable "account_id" {
   default = "var.account_id"
 }
 
+# --- Nueva variable necesaria para el túnel ---
+variable "tunnel_id" {
+  type        = string
+  description = "ID del túnel de Cloudflare para RKE2"
+}
+
 variable "domain" {
   default = "chicho.com.ar"
 }
+
+# --- Configuración del Túnel (Autoritativa) ---
+resource "cloudflare_tunnel_config" "rke2_config" {
+  account_id = var.account_id
+  tunnel_id  = var.tunnel_id
+
+  config {
+    # Regla para hellogwtest443 (HTTPS)
+    ingress_rule {
+      hostname = "hellogwtest443.chicho.com.ar"
+      service  = "https://192.168.52.10:443"
+      origin_request {
+        no_tls_verify      = true
+        origin_server_name = "hellogwtest443.chicho.com.ar"
+        http_host_header   = "hellogwtest443.chicho.com.ar"
+      }
+    }
+
+    # IMPORTANTE: Si tienes otras reglas en ESTE MISMO túnel, agrégalas aquí.
+    # Por ejemplo, si 'rke2prueba' usa este túnel, descomenta y ajusta:
+    # ingress_rule {
+    #   hostname = "rke2prueba.chicho.com.ar"
+    #   service  = "http://192.168.52.10:80"
+    # }
+
+    # Regla Catch-all (404 para lo no definido)
+    ingress_rule {
+      service = "http_status:404"
+    }
+  }
+}
+
+# --- Registros DNS ---
 
 resource "cloudflare_record" "rke2prueba" {
   zone_id = var.zone_id
@@ -171,3 +211,11 @@ resource "cloudflare_record" "hellogwtest" {
   proxied = true
 }
 
+# Nuevo registro apuntando explícitamente al túnel
+resource "cloudflare_record" "hellogwtest443" {
+  zone_id = var.zone_id
+  name    = "hellogwtest443"
+  value   = "${var.tunnel_id}.cfargotunnel.com"
+  type    = "CNAME"
+  proxied = true
+}
