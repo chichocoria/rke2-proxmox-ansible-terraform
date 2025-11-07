@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: IfNotPresent
         args:
         - tunnel
-        # - --region=eze # Opcional: forzar región si quisieras, pero mejor dejarlo automático
+        - --metrics=0.0.0.0:2000
         - run
         env:
         - name: TUNNEL_TOKEN
