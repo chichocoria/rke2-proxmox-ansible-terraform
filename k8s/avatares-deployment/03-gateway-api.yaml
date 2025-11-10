@@ -8,7 +8,7 @@ spec:
   parentRefs: 
   - name: gateway-principal
     namespace: nginx-gateway
-    sectionName: http   # Va por http, el nginx proxy manager lo redirige a https.
+    sectionName: https
   
   hostnames:
   - "avatares2.chicho.com.ar"

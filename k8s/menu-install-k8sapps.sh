@@ -154,7 +154,7 @@ while true; do
         5)  run_script "kube-prom-stack/instalar-kube-prom-stack.sh" "Kube-Prom-Stack" ;;
         
         # Opciones de YAML
-        10) apply_yaml "app-test/app-test.yaml" "App-Test" ;;
+        10) apply_yaml "app-test/app-test-443.yaml" "App-Test" ;;
         11) deploy_avatares ;;
 
         # Salir

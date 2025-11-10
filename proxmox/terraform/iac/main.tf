@@ -163,6 +163,26 @@ resource "cloudflare_tunnel_config" "rke2_config" {
       }
     }
 
+    ingress_rule {
+      hostname = "avatares2.chicho.com.ar"
+      service  = "https://192.168.52.10:443"
+      origin_request {
+        no_tls_verify      = true
+        origin_server_name = "avatares2.chicho.com.ar"
+        http_host_header   = "avatares2.chicho.com.ar"
+      }
+    }
+
+    ingress_rule {
+      hostname = "monitoreo-avatares2.chicho.com.ar"
+      service  = "https://192.168.52.10:443"
+      origin_request {
+        no_tls_verify      = true
+        origin_server_name = "monitoreo-avatares2.chicho.com.ar"
+        http_host_header   = "monitoreo-avatares2.chicho.com.ar"
+      }
+    }
+
     # IMPORTANTE: Si tienes otras reglas en ESTE MISMO túnel, agrégalas aquí.
     # Por ejemplo, si 'rke2prueba' usa este túnel, descomenta y ajusta:
     # ingress_rule {
@@ -190,7 +210,7 @@ resource "cloudflare_record" "rke2prueba" {
 resource "cloudflare_record" "avatares2" {
   zone_id = var.zone_id
   name    = "avatares2"
-  value   = "chicho.com.ar"
+  value   = "${var.tunnel_id}.cfargotunnel.com"
   type    = "CNAME"
   proxied = true
 }
@@ -198,15 +218,7 @@ resource "cloudflare_record" "avatares2" {
 resource "cloudflare_record" "monitoreo-avatares2" {
   zone_id = var.zone_id
   name    = "monitoreo-avatares2"
-  value   = "chicho.com.ar"
-  type    = "CNAME"
-  proxied = true
-}
-
-resource "cloudflare_record" "hellogwtest" {
-  zone_id = var.zone_id
-  name    = "hellogwtest"
-  value   = "chicho.com.ar"
+  value   = "${var.tunnel_id}.cfargotunnel.com"
   type    = "CNAME"
   proxied = true
 }

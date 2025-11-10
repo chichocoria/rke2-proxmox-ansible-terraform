@@ -66,7 +66,7 @@ install_nginx_gateway() {
     echo -e "${C_CIAN}=========================================${C_RESET}"
     echo -e "${C_CIAN}--- Iniciando instalación de NGINX Gateway Fabric ---${C_RESET}"
 
-    local gateway_file="metallb/gateway-principal.yaml"
+    local gateway_file="metallb/gateway-principal-443.yaml"
 
     echo -e "${C_GRIS}[1/4] Instalando CRDs de Gateway API (ref: $GATEWAY_API_VERSION)...${C_RESET}"
     kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=$GATEWAY_API_VERSION" | kubectl apply -f -

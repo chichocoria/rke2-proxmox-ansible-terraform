@@ -15,7 +15,7 @@ spec:
   parentRefs: 
   - name: gateway-principal
     namespace: nginx-gateway
-    sectionName: http   # Va por http, el nginx proxy manager lo redirige a https.
+    sectionName: https   # Va por http, el nginx proxy manager lo redirige a https.
   
   hostnames:
   - "monitoreo-avatares2.chicho.com.ar"
