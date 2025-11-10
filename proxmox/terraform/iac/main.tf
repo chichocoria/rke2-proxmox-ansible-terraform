@@ -183,6 +183,16 @@ resource "cloudflare_tunnel_config" "rke2_config" {
       }
     }
 
+    ingress_rule {
+      hostname = "kite.chicho.com.ar"
+      service  = "https://192.168.52.10:443"
+      origin_request {
+        no_tls_verify      = true
+        origin_server_name = "kite.chicho.com.ar"
+        http_host_header   = "kite.chicho.com.ar"
+      }
+    }
+
     # IMPORTANTE: Si tienes otras reglas en ESTE MISMO túnel, agrégalas aquí.
     # Por ejemplo, si 'rke2prueba' usa este túnel, descomenta y ajusta:
     # ingress_rule {
@@ -227,6 +237,14 @@ resource "cloudflare_record" "monitoreo-avatares2" {
 resource "cloudflare_record" "hellogwtest443" {
   zone_id = var.zone_id
   name    = "hellogwtest443"
+  value   = "${var.tunnel_id}.cfargotunnel.com"
+  type    = "CNAME"
+  proxied = true
+}
+
+resource "cloudflare_record" "kite" {
+  zone_id = var.zone_id
+  name    = "kite"
   value   = "${var.tunnel_id}.cfargotunnel.com"
   type    = "CNAME"
   proxied = true
