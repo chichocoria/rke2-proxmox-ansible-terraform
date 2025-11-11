@@ -155,7 +155,7 @@ resource "cloudflare_tunnel_config" "rke2_config" {
     # Regla para hellogwtest443 (HTTPS)
     ingress_rule {
       hostname = "hellogwtest443.chicho.com.ar"
-      service  = "https://192.168.52.10:443"
+      service  = "https://nginx-gateway.nginx-gateway.svc.cluster.local:443"
       origin_request {
         no_tls_verify      = true
         origin_server_name = "hellogwtest443.chicho.com.ar"
@@ -165,7 +165,7 @@ resource "cloudflare_tunnel_config" "rke2_config" {
 
     ingress_rule {
       hostname = "avatares2.chicho.com.ar"
-      service  = "https://192.168.52.10:443"
+      service  = "https://nginx-gateway.nginx-gateway.svc.cluster.local:443"
       origin_request {
         no_tls_verify      = true
         origin_server_name = "avatares2.chicho.com.ar"
@@ -175,7 +175,7 @@ resource "cloudflare_tunnel_config" "rke2_config" {
 
     ingress_rule {
       hostname = "monitoreo-avatares2.chicho.com.ar"
-      service  = "https://192.168.52.10:443"
+      service  = "https://nginx-gateway.nginx-gateway.svc.cluster.local:443"
       origin_request {
         no_tls_verify      = true
         origin_server_name = "monitoreo-avatares2.chicho.com.ar"
@@ -185,7 +185,7 @@ resource "cloudflare_tunnel_config" "rke2_config" {
 
     ingress_rule {
       hostname = "kite.chicho.com.ar"
-      service  = "https://192.168.52.10:443"
+      service  = "https://nginx-gateway.nginx-gateway.svc.cluster.local:443"
       origin_request {
         no_tls_verify      = true
         origin_server_name = "kite.chicho.com.ar"

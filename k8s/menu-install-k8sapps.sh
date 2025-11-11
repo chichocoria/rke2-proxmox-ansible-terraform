@@ -159,7 +159,7 @@ while true; do
     echo -e "${C_AZUL}=============================================${C_RESET}"
     echo
     echo -e "${C_AMARILLO}--- Infraestructura Base (Orden Recomendado) ---${C_RESET}"
-    echo -e "  ${C_VERDE}1. MetalLB y Nginx Fabric Gateway${C_RESET} ${C_GRIS}(Requerido primero)${C_RESET}"
+    echo -e "  ${C_VERDE}1. Nginx Fabric Gateway${C_RESET} ${C_GRIS}(Requerido primero)${C_RESET}"
     echo -e "  ${C_VERDE}2. Cert-Manager${C_RESET} ${C_GRIS}(Requiere token de API Cloudflare)${C_RESET}"
     echo -e "  ${C_VERDE}3. Cloudflare Tunnel${C_RESET} ${C_GRIS}(Requiere token del túnel)${C_RESET}"
     echo
@@ -183,7 +183,7 @@ while true; do
 
     case $opcion in
         # Infraestructura Base
-        1)  run_script "metallb/instalar-metallb-helm.sh" "MetalLB y Nginx Gateway" ;;
+        1)  run_script "nginx-fabric-gateway/instalar-nginx-fabric-gateway.sh" "Nginx Gateway" ;;
         2)  install_cert_manager_with_help ;;
         3)  deploy_cloudflare_tunnel ;;
         
