@@ -12,7 +12,7 @@ El proyecto implementa una arquitectura **Zero Trust pura**, lo que significa qu
   * **Gestión de Configuración:** Ansible
   * **Kubernetes:** RKE2 (Rancher Kubernetes Engine 2)
   * **Red (Ingress):** NGINX Gateway Fabric (usando Gateway API)
-  * **Red (Externa):** Cloudflare Tunnel (Argo)
+  * **Red (Externa):** Cloudflare Tunnel
   * **Certificados:** Cert-Manager con desafío DNS-01 (vía Cloudflare)
   * **Almacenamiento:** Longhorn
   * **Monitoreo:** Kube-Prometheus-Stack
