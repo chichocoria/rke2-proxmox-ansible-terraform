@@ -18,9 +18,8 @@ sleep 30
 ## 3 - Verify that ArgoCD is running:
 kubectl get pods -n argocd
 
-## 4 - En nuestro caso vamos a exponer argo server al loadBalancer con este comando, asi nos da una IP externa de MetallB para acceder
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
-
 # Obtener la contraseña inicial del usuario admin
 echo "La contraseña inicial del usuario admin es:"
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+echo "ArgoCD instalado. El servicio 'argocd-server' se ejecuta como ClusterIP."
+echo "¡Recuerda aplicar la HTTPRoute si es que necesitas exponerlo!"
