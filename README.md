@@ -80,6 +80,3 @@ El proyecto implementa una arquitectura **Zero Trust pura**, lo que significa qu
 ### Paso 4: ¡Listo\!
 
 Una vez completado el menú, tus servicios (como `avatares2.chicho.com.ar`, `monitoreo-avatares2.chicho.com.ar`, etc.) estarán disponibles públicamente a través de Cloudflare, con SSL completo, sin un solo puerto abierto en tu router.
-
-
-
