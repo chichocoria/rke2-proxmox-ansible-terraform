@@ -1,3 +1,9 @@
+
+<img width="4668" height="2995" alt="image" src="https://github.com/user-attachments/assets/99bc723c-8d6f-4781-bcc3-2fa19d7359e3" />
+
+
+---
+
 # RKE2 Homelab en Proxmox con Ansible, Terraform y Zero Trust
 
 Este repositorio contiene la configuración completa de Infraestructura como Código (IaC) y automatización para desplegar un clúster de Kubernetes (RKE2) seguro y resiliente sobre Proxmox, expuesto a Internet de forma segura utilizando túneles de Cloudflare bajo un modelo **Zero Trust**.
