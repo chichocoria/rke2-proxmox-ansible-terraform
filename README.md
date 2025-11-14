@@ -1,3 +1,8 @@
+<div align="center">
+  <img src="diagram/rke2-diagram.png" alt="Diagrama RKE2" width="500"/>
+</div>
+
+
 # RKE2 Homelab en Proxmox con Ansible, Terraform y Zero Trust
 
 Este repositorio contiene la configuración completa de Infraestructura como Código (IaC) y automatización para desplegar un clúster de Kubernetes (RKE2) seguro y resiliente sobre Proxmox, expuesto a Internet de forma segura utilizando túneles de Cloudflare bajo un modelo **Zero Trust**.
@@ -80,91 +85,3 @@ El proyecto implementa una arquitectura **Zero Trust pura**, lo que significa qu
 ### Paso 4: ¡Listo\!
 
 Una vez completado el menú, tus servicios (como `avatares2.chicho.com.ar`, `monitoreo-avatares2.chicho.com.ar`, etc.) estarán disponibles públicamente a través de Cloudflare, con SSL completo, sin un solo puerto abierto en tu router.
-
-
-```mermaid
-%% Diagrama de Arquitectura - RKE2 Proxmox Homelab con Zero Trust
-
-graph TD
-    subgraph "ADMINISTRACIÓN (Tu Máquina Local)"
-        Admin(👨‍💻 Administrador)
-        subgraph "Paso 1: Infraestructura"
-            Terraform(Terraform)
-        end
-        subgraph "Paso 2: Cluster K8s"
-            Ansible(Ansible)
-        end
-        subgraph "Paso 3: Servicios K8s"
-            Menu(Menu.sh / kubectl)
-        end
-        Admin --> Terraform
-        Admin --> Ansible
-        Admin --> Menu
-    end
-
-    subgraph "INTERNET (Cloudflare)"
-        User(👤 Usuario)
-        CF_DNS[DNS CNAME<br/>avatares2.chicho.com.ar]
-        CF_Tunnel[🔒 Cloudflare Tunnel]
-        CF_API(Cloudflare API<br/>DNS & Tunnels)
-
-        User --> CF_DNS
-        CF_DNS --> CF_Tunnel
-    end
-
-    subgraph "HOMELAB (Proxmox)"
-        direction TB
-        PVE_API(Proxmox API)
-        
-        subgraph "VMs (Infraestructura)"
-            VM1(VM Master<br/>192.168.52.104)
-            VM2(VM Worker 1<br/>192.168.52.102)
-            VM3(VM Worker 2<br/>192.168.52.103)
-        end
-
-        subgraph "CLUSTER RKE2 (Corriendo en las VMs)"
-            K8S_API(API de Kubernetes)
-            
-            subgraph "Flujo de Tráfico (Ingress)"
-                Cloudflared(Pod 'cloudflared')
-                Gateway(Svc NGINX Gateway Fabric)
-                HTTPRoute(HTTPRoute<br/>avatares2.chicho.com.ar)
-                AppSvc(Service 'web' Avatares)
-                AppPod(Pod 'web')
-            end
-
-            subgraph "Servicios Base"
-                CertManager(Cert-Manager)
-                Longhorn(Longhorn Storage)
-            end
-
-            subgraph "Servicios con Estado"
-                Prometheus(Pod Prometheus)
-                Loki(Pod Loki)
-            end
-
-            %% Flujo de Tráfico
-            CF_Tunnel --> Cloudflared
-            Cloudflared -.->|https://nginx-gateway.svc| Gateway
-            Gateway -->|Busca Ruta| HTTPRoute
-            HTTPRoute -->|Dirige a| AppSvc
-            AppSvc --> AppPod
-
-            %% Flujo de Certificados
-            Gateway -.->|Pide Cert SSL| CertManager
-            CertManager -.->|Desafío DNS-01| CF_API
-
-            %% Flujo de Almacenamiento
-            Prometheus -->|PVC| Longhorn
-            Loki -->|PVC| Longhorn
-        end
-
-        %% Flujos de Administración
-        Terraform --> PVE_API
-        Terraform --> CF_API
-        Ansible --SSH--> VM1
-        Ansible --SSH--> VM2
-        Ansible --SSH--> VM3
-        Menu --> K8S_API
-    end
-```
